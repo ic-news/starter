@@ -1,0 +1,10 @@
+dist
+.env
+node_modules
+dist/
+
+data
+db.sqlite
+.idea
+.tee-cloud
+content_cache

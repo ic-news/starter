@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "skipIgnore": true,
+    "preferTsExts": true
+  }
+}
