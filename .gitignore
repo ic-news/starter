@@ -8,3 +8,5 @@ db.sqlite
 .idea
 .tee-cloud
 content_cache
+
+scripts/push.sh

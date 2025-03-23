@@ -1,6 +1,7 @@
 import { AgentRuntime, Client, IAgentRuntime, Plugin, elizaLogger } from "@elizaos/core";
 import { NewsService } from "./news-service.ts";
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 /**
  * News plugin for sending periodic reports to Twitter
  * Fetches reports from Internet Computer canister and posts to Twitter
@@ -115,6 +116,7 @@ export class NewsPlugin implements Plugin {
             elizaLogger.error("News plugin", `Failed to post news: ${report.type}`);
             // Don't mark as sent if posting failed
           }
+          await sleep(1000);
         }
 
         // Wait briefly between posts to avoid rate limits

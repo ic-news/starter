@@ -57,9 +57,9 @@ export class NewsService {
       // Fetch latest news from the canister (e.g., 20 latest items)
       elizaLogger.info(
         "NewsService",
-        `Fetching latest news from canister ${this.canisterId}, limit: 100`
+        `Fetching latest news from canister ${this.canisterId}, limit: 30`
       );
-      const response = await actor.query_latest_news(BigInt(100));
+      const response = await actor.query_latest_news(BigInt(30));
 
       if ("err" in response) {
         const error = new Error(`Error from canister: ${JSON.stringify(response.err)}`);
@@ -74,7 +74,7 @@ export class NewsService {
         .filter((news: News) => {
           // Only get news with specific tags
           return (
-            news.tags.includes(ReportType.ICTRANSACTION) ||
+            // news.tags.includes(ReportType.ICTRANSACTION) ||
             news.tags.includes(ReportType.AGGREGATED)
           );
         })
@@ -84,11 +84,11 @@ export class NewsService {
           const content = metadata.source;
           // Determine report type based on content or metadata
           const reportType = this.determineReportType(news);
-          let url = `https://icnews.io/news/${news.hash}`;
+          // let url = `https://icnews.io/news/${news.hash}`;
           return {
             id: news.hash,
             type: reportType,
-            content: `${news.title}\n\n${content}\n\n🔗 Read more: ${url}`,
+            content: `${news.title}\n\n${content}`,
             timestamp: createdAt,
           };
         })
@@ -164,7 +164,7 @@ export class NewsService {
   async markReportAsSent(reportId: string): Promise<void> {
     const report = await this.getReportById(reportId);
     if (report) {
-      await this.updateLastSentTimestamp(report.type, report.timestamp);
+      await this.updateLastSentTimestamp(report.type, Date.now());
     }
   }
 
